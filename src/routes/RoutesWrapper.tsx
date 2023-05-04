@@ -9,7 +9,10 @@ const RoutesWrapper: React.FC = () => {
     <Routes>
       <Route path="/" element={<Navigate to="users" />} />
       <Route path="/" element={<RootWrapper />}>
-        <Route path="users" element={<Users />} />
+        <Route path="users" element={<Users />} >
+          <Route path="users/new" element={<Users />} />
+          <Route path="users/:id" element={<Users />} />
+        </Route>
         <Route path="statistics" element={<Statistics />} />
       </Route>
     </Routes>

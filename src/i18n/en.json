@@ -36,5 +36,6 @@
     "FORM.STREET_FIELD.REQUIRED": "Please input the street!",
     "FORM.PHONE_FIELD.NAME": "phone",
     "FORM.PHONE_FIELD.LABEL": "Phone",
-    "FORM.PHONE_FIELD.REQUIRED": "Please input the phone!"
+    "FORM.PHONE_FIELD.REQUIRED": "Please input the phone!",
+    "SPINNER.LOADING": "Loading..."
 }

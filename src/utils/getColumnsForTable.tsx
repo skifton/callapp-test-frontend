@@ -1,15 +1,20 @@
-import { DeleteOutlined } from "@ant-design/icons";
-import { Button } from "antd";
-import { IColumn } from "../models/table.model";
 import { IUser } from "../models/user.model";
-import { IntlShape } from "react-intl";
+import { useIntl } from "react-intl";
+import { ColumnsType } from "antd/es/table";
 
-export const getColumnsForTable = (removeUserHandler: (id: number) => void, intl: IntlShape) => {
+export const useGetColumnsForTable = ({
+  actionColumn,
+}: {
+  actionColumn: any;
+}): ColumnsType<IUser> => {
+  const intl = useIntl();
+
   return [
     {
       title: intl.formatMessage({ id: "TABLE.NAME" }),
       dataIndex: intl.formatMessage({ id: "TABLE.NAME_INDEX" }),
       key: intl.formatMessage({ id: "TABLE.NAME_INDEX" }),
+      fixed: "left",
     },
     {
       title: intl.formatMessage({ id: "TABLE.EMAIL" }),
@@ -36,18 +41,6 @@ export const getColumnsForTable = (removeUserHandler: (id: number) => void, intl
       dataIndex: intl.formatMessage({ id: "TABLE.PHONE_INDEX" }),
       key: intl.formatMessage({ id: "TABLE.PHONE_INDEX" }),
     },
-    {
-      dataIndex: intl.formatMessage({ id: "TABLE.REMOVE_INDEX" }),
-      key: intl.formatMessage({ id: "TABLE.REMOVE_INDEX" }),
-      render: (text: string, record: IUser) => (
-        <Button
-          className="bg-red-500 flex items-center hover:bg-red-300"
-          type="default"
-          onClick={() => removeUserHandler(record?.id)}
-        >
-          <DeleteOutlined className="text-white" />
-        </Button>
-      ),
-    },
-  ] as IColumn[];
+    actionColumn
+  ];
 };

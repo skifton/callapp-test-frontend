@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Pie } from "@ant-design/plots";
 import { groupBy } from "lodash";
 import { useDataStore } from "../../store/useDataStore";
-import { getUserList } from "../../services/users.service";
 
 const Statistics: React.FC = () => {
   const users = useDataStore((state) => state.data);
@@ -37,10 +36,6 @@ const Statistics: React.FC = () => {
     },
     interactions: [{ type: "element-active" }],
   };
-
-  useEffect(() => {
-    getUserList();
-  }, []);
 
   return <Pie {...config} />;
 };
