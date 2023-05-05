@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Users from "../views/Users";
 import RootWrapper from "../components/RootWrapper";
 import Statistics from "../views/Statistics";
-import UserModal from "../components/UserModal";
+import UserModal from "../views/Users/UserModal";
 
 const RoutesWrapper: React.FC = () => {
   return (

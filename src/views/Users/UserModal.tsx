@@ -4,7 +4,7 @@ import {
   parseUserJsonBody,
   parseUserToFormData,
 } from "../../models/user.model";
-import UserForm from "../../views/Users/UserForm";
+import UserForm from "./UserForm";
 import { useIntl } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
