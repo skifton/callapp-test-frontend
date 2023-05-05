@@ -1,9 +1,9 @@
 import { Modal, Form } from "antd";
-import { IFormData, IUser } from "../../models/user.model";
+import { IFormData } from "../../models/user.model";
 import UserForm from "../../views/Users/UserForm";
 import { useIntl } from "react-intl";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import { createUser, getUser, updateUser } from "../../services/users.service";
 import { getUserFromFormData } from "../../utils/getUserFromFormData";
 import { getFormDataFromUser } from "../../utils/getFormDataFromUser";

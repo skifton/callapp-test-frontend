@@ -1,8 +1,7 @@
-import { IUser } from "../models/user.model";
+import { IFormData, IUser } from "../models/user.model";
 
-export const getFormDataFromUser = (user: IUser) => {
+export const getFormDataFromUser = (user: IUser): IFormData => {
   return {
-    id: user.id,
     name: user.name,
     email: user.email,
     gender: user.gender,

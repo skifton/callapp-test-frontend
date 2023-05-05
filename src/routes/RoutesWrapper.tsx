@@ -16,6 +16,7 @@ const RoutesWrapper: React.FC = () => {
         </Route>
         <Route path="/statistics" element={<Statistics />} />
       </Route>
+      <Route path='*' element={<Navigate to="users" />}/>
     </Routes>
   );
 };
