@@ -1,12 +1,14 @@
 import { Modal, Form } from "antd";
-import { IFormData } from "../../models/user.model";
+import {
+  IFormData,
+  parseUserJsonBody,
+  parseUserToFormData,
+} from "../../models/user.model";
 import UserForm from "../../views/Users/UserForm";
 import { useIntl } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { createUser, getUser, updateUser } from "../../services/users.service";
-import { getUserFromFormData } from "../../utils/getUserFromFormData";
-import { getFormDataFromUser } from "../../utils/getFormDataFromUser";
 
 const UserModal: React.FC = () => {
   const [form] = Form.useForm();
@@ -16,30 +18,43 @@ const UserModal: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      const user = getUser(id);
-      user.then((res) => {
-        const formData = getFormDataFromUser(res);
-        form.setFieldsValue(formData);
-      });
-    }
-  }, []);
-
-  const okHandler = () => {
-    form.validateFields().then((values: IFormData) => {
-      const correctData = getUserFromFormData(values);
-      if (id) {
-        updateUser(id, correctData);
-      } else {
-        createUser(correctData);
-      }
       form.resetFields();
-      navigate("/users");
-    });
-  };
+      getUser(id)
+        .then((res) => {
+          if (res.status === 200) {
+            const formData = parseUserToFormData(res.data);
+            form.setFieldsValue(formData);
+          }
+        })
+        .catch(({ response }) => {
+          if (response.status === 404) {
+            navigate("/users");
+          }
+        });
+    }
+  }, [id, form, navigate]);
 
   const cancelHandler = () => {
-    form.resetFields();
     navigate("/users");
+  };
+
+  const submitForm = () => {
+    form.validateFields().then((values: IFormData) => {
+      const correctData = parseUserJsonBody(values);
+      if (id) {
+        updateUser(id, correctData).then((res) => {
+          if (res.status === 200) {
+            cancelHandler();
+          }
+        });
+      } else {
+        createUser(correctData).then((res) => {
+          if (res.status === 200) {
+            cancelHandler();
+          }
+        });
+      }
+    });
   };
 
   return (
@@ -51,7 +66,7 @@ const UserModal: React.FC = () => {
           : intl.formatMessage({ id: "MODAL.ADD_USER" })
       }
       onCancel={cancelHandler}
-      onOk={okHandler}
+      onOk={submitForm}
       okButtonProps={{
         type: "default",
       }}

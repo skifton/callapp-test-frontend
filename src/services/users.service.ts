@@ -4,10 +4,10 @@ import { IUser } from "../models/user.model";
 import { useState } from "react";
 
 export const getUser = async (userId: string) => {
-  const response = await axios.get(`http://localhost:4000/users/${userId}`);
-  const data = response.data;
-
-  return data;
+  return await axios.get(`http://localhost:4000/users/${userId}`)
+  .then((res) => {
+    return res
+  });
 };
 
 export const getUserList = async (
@@ -24,20 +24,21 @@ export const getUserList = async (
 };
 
 export const createUser = async (newUser: IUser) => {
-  const response = await axios.post(`http://localhost:4000/users`, newUser);
-  const data = response.data;
-
-  useDataStore.setState({ data });
+  return await axios
+    .post(`http://localhost:4000/users`, newUser)
+    .then((res) => {
+      useDataStore.setState({ data: res.data });
+      return res;
+    });
 };
 
-export const updateUser = async (userId: string, updateData: IUser) => {
-  const response = await axios.put(
-    `http://localhost:4000/users/${userId}`,
-    updateData
-  );
-  const data = response.data;
-
-  useDataStore.setState({ data });
+export const updateUser = async (id: string, updatedUser: IUser) => {
+  return await axios
+    .put(`http://localhost:4000/users/${id}`, updatedUser)
+    .then((res) => {
+      useDataStore.setState({ data: res.data });
+      return res;
+    });
 };
 
 export const removeUser = async (
