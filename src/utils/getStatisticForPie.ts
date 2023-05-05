@@ -1,7 +1,9 @@
 import { groupBy } from "lodash";
 import { IUser } from "../models/user.model";
 
-export const getStatisticForPie = (users: IUser[]) => {
+export const getStatisticForPie = (
+  users: IUser[]
+): { city: string; percentage: number }[] => {
   const usersByCity = groupBy(users, (user) => user.address.city);
 
   const data = Object.keys(usersByCity).map((city) => ({

@@ -34,6 +34,10 @@ const Users: React.FC = () => {
     onDoubleClick: () => handleRowDoubleClick(record),
   });
 
+  const openNewUser = () => {
+    navigate("/users/new");
+  };
+
   const columns = useGetColumnsForTable({
     actionColumn: {
       dataIndex: intl.formatMessage({ id: "TABLE.REMOVE_INDEX" }),
@@ -44,6 +48,7 @@ const Users: React.FC = () => {
           className="bg-red-500 flex items-center hover:bg-red-300"
           type="default"
           onDoubleClick={eventStopPropagation}
+          disabled={isRemoving}
           onClick={removeUserHandler(record?.id || "")}
         >
           <DeleteOutlined className="text-white" />
@@ -63,7 +68,7 @@ const Users: React.FC = () => {
         onRow={rowRenderer}
         title={() => (
           <div className="flex justify-end">
-            <Button type="default" onClick={() => navigate("/users/new")}>
+            <Button type="default" onClick={openNewUser}>
               <FormattedMessage id="BUTTON.NEW_USER" />
             </Button>
           </div>

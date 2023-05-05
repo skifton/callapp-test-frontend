@@ -8,7 +8,7 @@ const Statistics: React.FC = () => {
 
   const dataWithPercentage = getStatisticForPie(users);
 
-  const config = {
+  const pieOptions = {
     className: "mt-32",
     appendPadding: 10,
     data: dataWithPercentage,
@@ -26,7 +26,7 @@ const Statistics: React.FC = () => {
     interactions: [{ type: "element-active" }],
   };
 
-  return <Pie {...config} />;
+  return <Pie {...pieOptions} />;
 };
 
 export default Statistics;
