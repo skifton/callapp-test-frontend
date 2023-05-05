@@ -2,15 +2,15 @@ import { Button, Table } from "antd";
 import React from "react";
 import { IUser } from "../../models/user.model";
 import { useRemoveUser } from "../../services/users.service";
-import { useDataStore } from "../../store/useDataStore";
 import { useGetColumnsForTable } from "../../hooks/useGetColumnsForTable";
 import { FormattedMessage, useIntl } from "react-intl";
 import { DeleteOutlined } from "@ant-design/icons";
 import { eventStopPropagation } from "../../utils/eventStopPropagation";
 import { Outlet, useNavigate } from "react-router-dom";
+import { getUsers, useUserListStore } from "../../store/useUserListStore";
 
 const Users: React.FC = () => {
-  const users = useDataStore((state) => state.data);
+  const users = useUserListStore(getUsers);
   const { isLoading: isRemoving, removeUser } = useRemoveUser();
   const navigate = useNavigate();
   const intl = useIntl();

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useDataStore } from "../store/useDataStore";
 import { IUser } from "../models/user.model";
 import { useState } from "react";
+import { useUserListStore } from "../store/useUserListStore";
 
 export const getUser = async (userId: string) => {
   return await axios.get(`http://localhost:4000/users/${userId}`)
@@ -17,7 +17,7 @@ export const getUserList = async (
 
   await axios
     .get("http://localhost:4000/users")
-    .then((response) => useDataStore.setState({ data: response.data }))
+    .then((response) => useUserListStore.setState({ users: response.data }))
     .finally(() => {
       setIsLoading(false);
     });
@@ -27,7 +27,7 @@ export const createUser = async (newUser: IUser) => {
   return await axios
     .post(`http://localhost:4000/users`, newUser)
     .then((res) => {
-      useDataStore.setState({ data: res.data });
+      useUserListStore.setState({ users: res.data });
       return res;
     });
 };
@@ -36,7 +36,7 @@ export const updateUser = async (id: string, updatedUser: IUser) => {
   return await axios
     .put(`http://localhost:4000/users/${id}`, updatedUser)
     .then((res) => {
-      useDataStore.setState({ data: res.data });
+      useUserListStore.setState({ users: res.data });
       return res;
     });
 };
@@ -49,7 +49,7 @@ export const removeUser = async (
 
   await axios
     .delete(`http://localhost:4000/users/${userId}`)
-    .then((response) => useDataStore.setState({ data: response.data }))
+    .then((response) => useUserListStore.setState({ users: response.data }))
     .finally(() => {
       setIsLoading(false);
     });

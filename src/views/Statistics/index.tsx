@@ -1,10 +1,10 @@
 import React from "react";
 import { Pie } from "@ant-design/plots";
-import { useDataStore } from "../../store/useDataStore";
 import { getStatisticForPie } from "../../utils/getStatisticForPie";
+import { getUsers, useUserListStore } from "../../store/useUserListStore";
 
 const Statistics: React.FC = () => {
-  const users = useDataStore((state) => state.data);
+  const users = useUserListStore(getUsers);
 
   const dataWithPercentage = getStatisticForPie(users);
 
