@@ -8,6 +8,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { eventStopPropagation } from "../../utils/eventStopPropagation";
 import { Outlet, useNavigate } from "react-router-dom";
 import { getUsers, useUserListStore } from "../../store/useUserListStore";
+import { ROUTES } from "../../routes/routes";
 
 const Users: React.FC = () => {
   const users = useUserListStore(getUsers);
@@ -35,7 +36,7 @@ const Users: React.FC = () => {
   });
 
   const openNewUser = () => {
-    navigate("/users/new");
+    navigate(ROUTES.editNewUser);
   };
 
   const columns = useGetColumnsForTable({

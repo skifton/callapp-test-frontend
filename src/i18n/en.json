@@ -1,8 +1,6 @@
 {
     "NAVIGATION.USERS_BUTTON_TITLE": "Users",
-    "NAVIGATION.USERS_BUTTON_ROUTE": "users",
     "NAVIGATION.STATISTICS_BUTTON_TITLE": "Statistics",
-    "NAVIGATION.STATISTICS_BUTTON_ROUTE": "statistics",
     "MODAL.EDIT_USER": "Edit User",
     "MODAL.ADD_USER": "Add User",
     "TABLE.NAME": "Name",

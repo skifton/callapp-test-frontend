@@ -1,14 +1,17 @@
 import React from "react";
 import clsx from "clsx";
-import { NavLink } from "react-router-dom";
+import { NavLink, NavLinkProps } from "react-router-dom";
 
-interface IProps {
-  to: string;
+interface IProps extends NavLinkProps {
   title: string;
   className?: string;
 }
 
-const NavigationButton: React.FC<IProps> = ({ to, title, className }) => {
+const NavigationButton: React.FC<IProps> = ({
+  title,
+  className,
+  ...navLinkProps
+}) => {
   return (
     <NavLink
       className={({ isActive }) =>
@@ -20,7 +23,7 @@ const NavigationButton: React.FC<IProps> = ({ to, title, className }) => {
           className
         )
       }
-      to={to}
+      {...navLinkProps}
     >
       {title}
     </NavLink>

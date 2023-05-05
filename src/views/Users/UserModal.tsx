@@ -9,6 +9,7 @@ import { useIntl } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { createUser, getUser, updateUser } from "../../services/users.service";
+import { ROUTES } from "../../routes/routes";
 
 const UserModal: React.FC = () => {
   const [form] = Form.useForm();
@@ -16,26 +17,8 @@ const UserModal: React.FC = () => {
   const navigate = useNavigate();
   const intl = useIntl();
 
-  useEffect(() => {
-    if (id) {
-      form.resetFields();
-      getUser(id)
-        .then((res) => {
-          if (res.status === 200) {
-            const formData = parseUserToFormData(res.data);
-            form.setFieldsValue(formData);
-          }
-        })
-        .catch(({ response }) => {
-          if (response.status === 404) {
-            navigate("/users");
-          }
-        });
-    }
-  }, [id, form, navigate]);
-
   const cancelHandler = () => {
-    navigate("/users");
+    navigate(ROUTES.users);
   };
 
   const submitForm = () => {
@@ -56,6 +39,24 @@ const UserModal: React.FC = () => {
       }
     });
   };
+
+  useEffect(() => {
+    if (id) {
+      form.resetFields();
+      getUser(id)
+        .then((res) => {
+          if (res.status === 200) {
+            const formData = parseUserToFormData(res.data);
+            form.setFieldsValue(formData);
+          }
+        })
+        .catch(({ response }) => {
+          if (response.status === 404) {
+            cancelHandler();
+          }
+        });
+    }
+  }, [id, form, navigate]);
 
   return (
     <Modal

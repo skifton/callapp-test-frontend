@@ -1,6 +1,7 @@
 import React from "react";
 import NavigationButton from "../NavigationButton";
 import { useIntl } from "react-intl";
+import { ROUTES } from "../../routes/routes";
 
 const Navigation: React.FC = () => {
   const intl = useIntl();
@@ -9,11 +10,11 @@ const Navigation: React.FC = () => {
     <header className="flex items-center h-20 shadow-md">
       <div className="w-full max-w-md mx-auto 2xl:max-w-7xl xl:max-w-5xl lg:max-w-4xl md:max-w-2xl sm:max-w-xl">
         <NavigationButton
-          to={intl.formatMessage({ id: "NAVIGATION.USERS_BUTTON_ROUTE" })}
+          to={ROUTES.users}
           title={intl.formatMessage({ id: "NAVIGATION.USERS_BUTTON_TITLE" })}
         />
         <NavigationButton
-          to={intl.formatMessage({ id: "NAVIGATION.STATISTICS_BUTTON_ROUTE" })}
+          to={ROUTES.statistics}
           title={intl.formatMessage({
             id: "NAVIGATION.STATISTICS_BUTTON_TITLE",
           })}
