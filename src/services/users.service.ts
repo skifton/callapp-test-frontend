@@ -3,7 +3,7 @@ import { useDataStore } from "../store/useDataStore";
 import { IUser } from "../models/user.model";
 import { useState } from "react";
 
-export const getUser = async (userId: number) => {
+export const getUser = async (userId: string) => {
   const response = await axios.get(`http://localhost:4000/users/${userId}`);
   const data = response.data;
 
@@ -30,7 +30,7 @@ export const createUser = async (newUser: IUser) => {
   useDataStore.setState({ data });
 };
 
-export const updateUser = async (userId: number, updateData: IUser) => {
+export const updateUser = async (userId: string, updateData: IUser) => {
   const response = await axios.put(
     `http://localhost:4000/users/${userId}`,
     updateData
@@ -41,7 +41,7 @@ export const updateUser = async (userId: number, updateData: IUser) => {
 };
 
 export const removeUser = async (
-  userId: number,
+  userId: string,
   setIsLoading: (isLoading: boolean) => void
 ) => {
   setIsLoading(true);
@@ -75,7 +75,7 @@ export const useRemoveUser = () => {
     setIsLoading(isLoadingNew);
   };
 
-  const removeUserHandler = (userId: number) => {
+  const removeUserHandler = (userId: string) => {
     removeUser(userId, isLoadingHandler);
   };
 

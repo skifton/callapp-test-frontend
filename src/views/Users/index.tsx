@@ -1,60 +1,23 @@
-import { Button, Form, Table } from "antd";
-import React, { useEffect, useState } from "react";
-import { IFormData, IUser } from "../../models/user.model";
-import {
-  createUser,
-  updateUser,
-  useRemoveUser,
-} from "../../services/users.service";
+import { Button, Table } from "antd";
+import React from "react";
+import { IUser } from "../../models/user.model";
+import { useRemoveUser } from "../../services/users.service";
 import { useDataStore } from "../../store/useDataStore";
-import UserModal from "../../components/UserModal";
-import { useGetColumnsForTable } from "../../utils/getColumnsForTable";
-import { getUserFromFormData } from "../../utils/getUserFromFormData";
-import { getFormDataFromUser } from "../../utils/getFormDataFromUser";
+import { useGetColumnsForTable } from "../../hooks/useGetColumnsForTable";
 import { FormattedMessage, useIntl } from "react-intl";
 import { DeleteOutlined } from "@ant-design/icons";
 import { eventStopPropagation } from "../../utils/eventStopPropagation";
+import { useNavigate } from "react-router-dom";
+import UserModal from "../../components/UserModal";
 
 const Users: React.FC = () => {
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const users = useDataStore((state) => state.data);
   const { isLoading: isRemoving, removeUser } = useRemoveUser();
-  const [form] = Form.useForm();
+  const navigate = useNavigate();
   const intl = useIntl();
 
-  const changeModalVisible = () => {
-    setIsOpenModal((prevState) => !prevState);
-  };
-
-  const createUserHandler = () => {
-    form.validateFields().then((values: IFormData) => {
-      form.resetFields();
-      const id = users[users.length - 1].id + 1;
-      const newUser = getUserFromFormData(values, id);
-      createUser(newUser);
-      changeModalVisible();
-    });
-  };
-
-  const updateUserHandler = () => {
-    form.validateFields().then((values: IFormData) => {
-      form.resetFields();
-      const updatedUser = getUserFromFormData(values, selectedUser?.id || 0);
-      updateUser(updatedUser.id, updatedUser);
-      setSelectedUser(null);
-      changeModalVisible();
-    });
-  };
-
-  const cancelModal = () => {
-    form.resetFields();
-    setSelectedUser(null);
-    changeModalVisible();
-  };
-
   const removeUserHandler =
-    (id: number) => (event: React.MouseEvent<HTMLElement>) => {
+    (id: string) => (event: React.MouseEvent<HTMLElement>) => {
       event.stopPropagation();
 
       if (isRemoving) {
@@ -65,8 +28,7 @@ const Users: React.FC = () => {
     };
 
   const handleRowDoubleClick = (user: IUser) => {
-    setSelectedUser(user);
-    changeModalVisible();
+    navigate(`${user?.id}`);
   };
 
   const rowRenderer = (record: IUser) => ({
@@ -83,7 +45,7 @@ const Users: React.FC = () => {
           className="bg-red-500 flex items-center hover:bg-red-300"
           type="default"
           onDoubleClick={eventStopPropagation}
-          onClick={removeUserHandler(record?.id)}
+          onClick={removeUserHandler(record?.id || "")}
         >
           <DeleteOutlined className="text-white" />
         </Button>
@@ -91,23 +53,8 @@ const Users: React.FC = () => {
     },
   });
 
-  useEffect(() => {
-    if (selectedUser) {
-      const formData = getFormDataFromUser(selectedUser);
-      form.setFieldsValue(formData);
-    }
-  }, [selectedUser, form]);
-
   return (
     <main className="max-w-md mx-auto 2xl:max-w-7xl xl:max-w-5xl lg:max-w-4xl md:max-w-2xl sm:max-w-xl">
-      <UserModal
-        visible={isOpenModal}
-        onCreate={createUserHandler}
-        onUpdate={updateUserHandler}
-        selectedUser={selectedUser}
-        onCancel={cancelModal}
-        form={form}
-      />
       <Table
         className="mt-10"
         scroll={{ x: 670 }}
@@ -116,15 +63,14 @@ const Users: React.FC = () => {
         rowKey={intl.formatMessage({ id: "ROW_KEY_ID" })}
         onRow={rowRenderer}
         title={() => (
-          <Button
-            className="absolute bottom-0"
-            type="default"
-            onClick={changeModalVisible}
-          >
-            <FormattedMessage id="BUTTON.NEW_USER" />
-          </Button>
+          <div className="flex justify-end">
+            <Button type="default" onClick={() => navigate("/users/new")}>
+              <FormattedMessage id="BUTTON.NEW_USER" />
+            </Button>
+          </div>
         )}
       />
+      <UserModal />
     </main>
   );
 };

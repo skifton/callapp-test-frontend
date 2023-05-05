@@ -41,6 +41,6 @@ export const useGetColumnsForTable = ({
       dataIndex: intl.formatMessage({ id: "TABLE.PHONE_INDEX" }),
       key: intl.formatMessage({ id: "TABLE.PHONE_INDEX" }),
     },
-    actionColumn
+    actionColumn,
   ];
 };
