@@ -1,9 +1,9 @@
 import { Modal, Form } from "antd";
-import { IFormData } from "../../models/user.model";
+import { IFormData, IUser } from "../../models/user.model";
 import UserForm from "../../views/Users/UserForm";
 import { useIntl } from "react-intl";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createUser, getUser, updateUser } from "../../services/users.service";
 import { getUserFromFormData } from "../../utils/getUserFromFormData";
 import { getFormDataFromUser } from "../../utils/getFormDataFromUser";
@@ -11,7 +11,6 @@ import { getFormDataFromUser } from "../../utils/getFormDataFromUser";
 const UserModal: React.FC = () => {
   const [form] = Form.useForm();
   const { id } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
   const intl = useIntl();
 
@@ -40,12 +39,12 @@ const UserModal: React.FC = () => {
 
   const cancelHandler = () => {
     form.resetFields();
-    navigate(-1);
+    navigate("/users");
   };
 
   return (
     <Modal
-      open={Boolean(id) || location.pathname === "/users/new"}
+      open={true}
       title={
         id
           ? intl.formatMessage({ id: "MODAL.EDIT_USER" })

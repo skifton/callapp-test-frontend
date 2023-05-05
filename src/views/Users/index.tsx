@@ -7,8 +7,7 @@ import { useGetColumnsForTable } from "../../hooks/useGetColumnsForTable";
 import { FormattedMessage, useIntl } from "react-intl";
 import { DeleteOutlined } from "@ant-design/icons";
 import { eventStopPropagation } from "../../utils/eventStopPropagation";
-import { useNavigate } from "react-router-dom";
-import UserModal from "../../components/UserModal";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const Users: React.FC = () => {
   const users = useDataStore((state) => state.data);
@@ -70,7 +69,7 @@ const Users: React.FC = () => {
           </div>
         )}
       />
-      <UserModal />
+      <Outlet />
     </main>
   );
 };
